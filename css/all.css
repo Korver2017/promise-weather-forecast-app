@@ -1,0 +1,145 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanstc.css);
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+.clearfix {
+	clear: both;
+}
+* {
+	box-sizing: border-box;
+}
+::selection {
+	background-color: #D4BD94;
+	color: #fff;
+}
+body {
+	font-family: 'Noto Sans TC', sans-serif;
+	background-image: url(../img/cover.jpg);
+	-webkit-background-size: cover;
+	background-size: cover;
+	background-attachment: fixed;
+}
+h1 {
+	font-size: 30px;
+	font-weight: bold;
+	margin-top: 100px;
+	text-align: center;
+}
+h2 {
+	font-size: 28px;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 5px;
+}
+h3 {
+	margin: 20px;
+	margin-top: 60px;
+}
+p {
+	margin-left: 20px;
+	line-height: 1.6;
+}
+img {
+	width: 95px;
+	height: 95px;
+	position: absolute;
+	top: 45px;
+	right: 40px;
+}
+.container {
+	margin: 50px auto;
+}
+.form-control {
+	font-size: 20px;
+	height: 42px;
+}
+.thumbnail {
+	display: none;
+	border-left: 10px solid #00D49F;
+	border-radius: 10px;
+	padding: 0 20px;
+	box-shadow: -3px 3px 15px -3px rgba(0,0,0,.6);
+}
+/*.thumbnail .caption {
+	display: none;
+	border-left: 10px solid #00D49F;
+	border-radius: 10px;
+	padding: 0 20px;
+	box-shadow: -3px 3px 15px -3px rgba(0,0,0,.6);
+}*/
+.dailyInfo p {
+	padding: 30px;
+	margin: 15px;
+	margin-left: 1%;
+	margin-right: 1%;
+	width: 31.33333%;
+	float: left;
+	position: relative;
+	box-shadow: 2px 2px 5px -3px rgba(0,0,0,.6);
+}
+.dailyInfo p:last-of-type {
+	margin-bottom: 20px;
+}
+.dailyInfo p:hover {
+	box-shadow: 2px 2px 12px -3px rgba(0,0,0,.6);
+	transition: all .3s;
+	transform: translateX(-5px) translateY(-5px);
+}
+.ui-helper-hidden-accessible {
+	display: none;
+}
+.btn {
+	font-size: 20px;
+}
+#ui-id-1 {
+	border: 1px solid #000;
+	width: 0;
+}
+.ui-menu-item {
+	background-color: #fff;
+	line-height: 1.5;
+}
+.ui-menu .ui-menu-item:hover, .ui-state-hover, .ui-widget-content .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-state-active {
+    background-color: #D4BD94;
+    font-weight: bold;
+}

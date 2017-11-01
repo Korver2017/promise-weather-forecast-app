@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather Forecast App</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+	<link rel="shortcut icon" href="./img/icon.ico">
+	<link rel="stylesheet" href="./css/bootstrap.min.css">
+	<link rel="stylesheet" href="./css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="./css/all.css">
+</head>
+<body>
+	<h1>氣象預報</h1>
+	<div class="container">
+		<div class="row">
+		<div class="col-lg-3"></div>
+		  <div class="col-lg-6">
+		    <div class="input-group">
+		      <span class="input-group-btn">
+		        <button class="btn btn-default" type="button">搜尋</button>
+		      </span>
+		      <input type="text" class="form-control" placeholder="ex: 台北、新北、台中、高雄、花蓮...">
+		    </div>
+		  </div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+		  <div class="col-sm-12 col-md-12">
+		    <div class="thumbnail">
+		      <div class="caption">
+		        <h2></h2>
+		        <div class="dailyInfo">
+		        </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+	<script src='js/jquery-3.1.0.min.js'></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script>
+	$(function(){
+	  var availableTags =
+	  [
+	    '台北',
+	    '高雄',
+	    '台中',
+	    '台南',
+	    '花蓮',
+	    '新北'
+	  ];
+	  $('.form-control').autocomplete({
+	    source: availableTags
+	  });
+	  $('.form-control').autocomplete( "close" );
+	});
+	</script>
+	<script src='js/bootstrap.min.js'></script>
+	<script src="js/all.js"></script>
+</html>
