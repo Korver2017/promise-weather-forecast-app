@@ -48,10 +48,12 @@ function check(){
 				image = '<img src="./img/mostly_cloudy.svg">';
 			}else if(forecast[i].text == 'Scattered Showers'){
 				image = '<img src="./img/showers.svg">';
+			}else if(forecast[i].text == 'Showers'){
+				image = '<img src="./img/showers.svg">';
 			}else if(forecast[i].text == 'Rain'){
 				image = '<img src="./img/showers.svg">';
 			}else{
-				image = '<img src="...">';
+				image = '<img src="./img/no_image.svg">';
 			}
 			str +='<p>'+forecast[i].date+' '+forecast[i].day
 			+'<br>'+'High: '+forecast[i].high+'°F'
