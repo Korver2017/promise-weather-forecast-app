@@ -1,11 +1,19 @@
 var woeidList = {
-	'台北':2306179,
-	'高雄':2306180,
-	'台中':2306181,
-	'台南':2306182,
-	'花蓮':2306187,
-	'新北':2306211
+	'台北': 2306179,
+	'高雄': 2306180,
+	'台中': 2306181,
+	'台南': 2306182,
+	'花蓮': 2306187,
+	'新北': 2306211
 };
+var woeidListKey = Object.keys(woeidList);
+$(document).ready(function(){
+	$('.form-control').autocomplete({
+		source: woeidListKey
+	});
+	$('.form-control').autocomplete("close");
+});
+
 document.querySelector('.form-control').addEventListener('keydown', function(e){
 	if(e.key === 'Enter'){
 		document.querySelector('.form-control').onclick = check();
@@ -15,7 +23,6 @@ document.querySelector('.form-control').addEventListener('keydown', function(e){
 function check(){
 	document.querySelector('.thumbnail').style.display='block';
 	var userValue = document.querySelector('.form-control').value;
-	var woeidListKey = Object.keys(woeidList);
 	var len = woeidListKey.length;
 	var x = '查詢結果';
 	document.querySelector('h2').innerHTML=x;
