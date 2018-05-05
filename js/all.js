@@ -6,6 +6,7 @@ var woeidList = {
 	'花蓮': 2306187,
 	'新北': 2306211
 };
+
 var woeidListKey = Object.keys(woeidList);
 $(document).ready(function(){
 	$('.form-control').autocomplete({
@@ -14,38 +15,43 @@ $(document).ready(function(){
 	$('.form-control').autocomplete("close");
 });
 
-document.querySelector('.form-control').addEventListener('keydown', function(e){
-	if(e.key === 'Enter'){
-		document.querySelector('.form-control').onclick = check();
+var formControl = document.querySelector('.form-control');
+formControl.addEventListener('keydown', function(e){
+	if(e.key == 'Enter'){
+		formControl.onclick = check();
 	}
 }, false);
 
+var thumbnail = document.querySelector('.thumbnail');
 function check(){
-	document.querySelector('.thumbnail').style.display='block';
-	var userValue = document.querySelector('.form-control').value;
+	thumbnail.style.display='block';
+	var userValue = formControl.value;
 	var len = woeidListKey.length;
-	var x = '查詢結果';
-	document.querySelector('h2').innerHTML=x;
+	var results = '查詢結果';
+	var info = document.querySelector('.dailyInfo');
+	document.querySelector('h2').innerHTML = results;
 	for(var i = 0; i < len; i ++){
 		if(userValue === woeidListKey[i]){
 			var value = woeidList[woeidListKey[i]];
 		}else{
-			document.querySelector('.dailyInfo').innerHTML='<h3>Sorry, not found.</h3>';
+			info.innerHTML = '<h3>Sorry, not found.</h3>';
 		}
 	}
-	var data = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20('+value+')&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys';
+	var data = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20('
+							+value+')&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys';
 	var xhr = new XMLHttpRequest();
 	xhr.open('get', data, true);
 	xhr.send(null);
 	xhr.onload = function(){
 		var json = JSON.parse(xhr.responseText);
 		var city = json.query.results.channel.location.city;
-		document.querySelector('.dailyInfo').innerHTML='<h3>'+city+'</h3>';
-		var str='';
+		info.innerHTML = '<h3>'+city+'</h3>';
+		var str = '';
 		var image = '';
 		var forecast = json.query.results.channel.item.forecast
-		for(var i = 0; i < forecast.length; i ++){
-			if(forecast[i].text == 'Partly Cloudy'){
+		var forecastLen = forecast.length;
+		for (var i = 0; i < forecastLen; i ++){
+			if (forecast[i].text == ("Partly Cloudy" | "Scattered Showers")){
 				image = '<img src="./img/partly_cloudy.svg">';
 			}else if(forecast[i].text == 'Thunderstorms'){
 				image = '<img src="./img/storm.svg">';
@@ -53,8 +59,9 @@ function check(){
 				image = '<img src="./img/storm.svg">';
 			}else if(forecast[i].text == 'Mostly Cloudy'){
 				image = '<img src="./img/mostly_cloudy.svg">';
-			}else if(forecast[i].text == 'Scattered Showers'){
-				image = '<img src="./img/showers.svg">';
+			
+			// }else if(forecast[i].text == 'Scattered Showers'){
+			// 	image = '<img src="./img/showers.svg">';
 			}else if(forecast[i].text == 'Showers'){
 				image = '<img src="./img/showers.svg">';
 			}else if(forecast[i].text == 'Rain'){
