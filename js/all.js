@@ -15,36 +15,58 @@ $(document).ready(function () {
 	$('.form-control').autocomplete("close");
 });
 // Vanilla JS
-var formControl = document.querySelector('.form-control');
-formControl.addEventListener('keydown', function (e) {
+let info = document.querySelector('.dailyInfo');
+let formControl = document.querySelector('.form-control');
+formControl.addEventListener('keydown', (e) => {
 	if (e.key == 'Enter') {
-		check();
-	}
+		info.innerHTML = '';
+		let userValue = formControl.value;
+		callAPI(userValue).then(() => {
+			console.log('Success!')
+		}).catch(() => {
+			console.log('Error!')
+			info.innerHTML = 'Sorry! Not found.';
+		});
+	};
 }, false);
-var thumbnail = document.querySelector('.thumbnail');
 
-function check() {
-	thumbnail.style.display = 'block';
-	var userValue = formControl.value;
-	var len = woeidListKey.length;
-	var info = document.querySelector('.dailyInfo');
-	document.querySelector('h2').innerHTML = '查詢結果';
-	for (var i = 0; i < len; i++) {
-		if (userValue == woeidListKey[i]) {
-			var value = woeidList[woeidListKey[i]];
-			var data = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(' +
+var submit = document.querySelector('.btn');
+submit.addEventListener('click', () => {
+	info.innerHTML = '';
+	let userValue = formControl.value;
+	callAPI(userValue).then(() => {
+		console.log('Success Click');
+	}).catch(() => {
+		console.log('Error Click');
+		info.innerHTML = 'Sorry! Not found.'
+	});
+}, false);
+
+let thumbnail = document.querySelector('.thumbnail');
+let callAPI = (location) => {
+	return new Promise((resolve, reject) => {
+		thumbnail.style.display = 'block';
+		let len = woeidListKey.length;
+		document.querySelector('h2').innerHTML = '查詢結果';
+		let result = woeidListKey.filter((key) => {
+			return key == location;
+		});
+		console.log(result);
+		if (result.length) {
+			let value = woeidList[result];
+			let data = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(' +
 				value + ')&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys';
-			var xhr = new XMLHttpRequest();
+			let xhr = new XMLHttpRequest();
 			xhr.open('get', data, true);
 			xhr.send(null);
 			xhr.onload = function () {
-				var json = JSON.parse(xhr.responseText);
-				var city = json.query.results.channel.location.city;
-				var str = '';
-				var image = '';
-				var forecast = json.query.results.channel.item.forecast
-				var forecastLen = forecast.length;
-				for (var i = 0; i < forecastLen; i++) {
+				let json = JSON.parse(xhr.responseText);
+				let city = json.query.results.channel.location.city;
+				let str = '';
+				let image = '';
+				let forecast = json.query.results.channel.item.forecast
+				let forecastLen = forecast.length;
+				for (let i = 0; i < forecastLen; i++) {
 					switch (forecast[i].text) {
 						case 'Partly Cloudy':
 							image = '<img src="./img/partly_cloudy.svg">'
@@ -69,14 +91,12 @@ function check() {
 						'<br>' + 'High: ' + forecast[i].high + '°F' +
 						'<br>' + 'Low: ' + forecast[i].low + '°F' +
 						'<br>' + forecast[i].text + image + '</p>';
-				}
+				};
 				info.innerHTML = str + '<div class="clearfix"></div>';
-			}
-		}else{
-			info.innerHTML = '<h3>Sorry, not found!</h3>';
+			};
+			resolve();
+		} else {
+			reject();
 		}
-	}
-}
-
-var submit = document.querySelector('.btn');
-submit.addEventListener('click', check, false);
+	});
+};
