@@ -1,5 +1,5 @@
 // jQuery UI Auto Complete
-var woeidList = {
+let woeidList = {
 	'台北': 2306179,
 	'高雄': 2306180,
 	'台中': 2306181,
@@ -7,7 +7,7 @@ var woeidList = {
 	'花蓮': 2306187,
 	'新北': 2306211
 };
-var woeidListKey = Object.keys(woeidList);
+let woeidListKey = Object.keys(woeidList);
 $(document).ready(function () {
 	$('.form-control').autocomplete({
 		source: woeidListKey
@@ -30,7 +30,7 @@ formControl.addEventListener('keydown', (e) => {
 	};
 }, false);
 
-var submit = document.querySelector('.btn');
+let submit = document.querySelector('.btn');
 submit.addEventListener('click', () => {
 	info.innerHTML = '';
 	let userValue = formControl.value;
