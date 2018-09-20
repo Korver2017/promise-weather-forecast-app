@@ -16,41 +16,14 @@ $(document).ready(function () {
 });
 // Vanilla JS
 let info = document.querySelector('.dailyInfo');
-let formControl = document.querySelector('.form-control');
-formControl.addEventListener('keydown', (e) => {
-	if (e.key === 'Enter') {
-		info.innerHTML = '';
-		let userValue = formControl.value;
-		callAPI(userValue).then(() => {
-			console.log('Success!')
-		}).catch(() => {
-			console.log('Error!')
-			info.innerHTML = 'Sorry! Not found.';
-		});
-	};
-}, false);
-
-let submit = document.querySelector('.btn');
-submit.addEventListener('click', () => {
-	info.innerHTML = '';
-	let userValue = formControl.value;
-	callAPI(userValue).then(() => {
-		console.log('Success Click');
-	}).catch(() => {
-		console.log('Error Click');
-		info.innerHTML = 'Sorry! Not found.'
-	});
-}, false);
-
-let thumbnail = document.querySelector('.thumbnail');
 let callAPI = (location) => {
 	return new Promise((resolve, reject) => {
+		let thumbnail = document.querySelector('.thumbnail');
 		thumbnail.style.display = 'block';
 		document.querySelector('h2').innerHTML = '查詢結果';
 		let result = woeidListKey.filter((key) => {
 			return key === location;
 		});
-		console.log(result);
 		if (result.length) {
 			let value = woeidList[result];
 			let data = `https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(${value})&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys`;
@@ -61,8 +34,7 @@ let callAPI = (location) => {
 				let json = JSON.parse(xhr.responseText);
 				let str = '';
 				let image = '';
-				let forecast = json.query.results.channel.item.forecast
-				// let forecastLen = forecast.length;
+				let forecast = json.query.results.channel.item.forecast;
 				for (let i = 0; i <= 8; i++) {
 					switch (forecast[i].text) {
 						case 'Partly Cloudy':
@@ -88,9 +60,35 @@ let callAPI = (location) => {
 				};
 				info.innerHTML = str + '<div class="clearfix"></div>';
 			};
-			resolve();
+			resolve('Success!');
 		} else {
-			reject();
+			reject('Failed!');
 		}
 	});
 };
+
+let formControl = document.querySelector('.form-control');
+formControl.addEventListener('keydown', (e) => {
+	if (e.key === 'Enter') {
+		info.innerHTML = '';
+		let userValue = formControl.value;
+		callAPI(userValue).then((res) => {
+			console.log(res)
+		}).catch((err) => {
+			console.log(err)
+			info.innerHTML = 'Sorry! Not found.';
+		});
+	};
+}, false);
+
+let submit = document.querySelector('.btn');
+submit.addEventListener('click', () => {
+	info.innerHTML = '';
+	let userValue = formControl.value;
+	callAPI(userValue).then(() => {
+		console.log('Success Click');
+	}).catch(() => {
+		console.log('Error Click');
+		info.innerHTML = 'Sorry! Not found.'
+	});
+}, false);
