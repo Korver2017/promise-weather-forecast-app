@@ -18,9 +18,6 @@ $(document).ready(function () {
 let info = document.querySelector('.dailyInfo');
 let callAPI = (location) => {
 	return new Promise((resolve, reject) => {
-		let thumbnail = document.querySelector('.thumbnail');
-		thumbnail.style.display = 'block';
-		document.querySelector('h2').innerHTML = '查詢結果';
 		let result = woeidListKey.filter((key) => {
 			return key === location;
 		});
@@ -31,64 +28,55 @@ let callAPI = (location) => {
 			xhr.open('get', data, true);
 			xhr.send(null);
 			xhr.onload = function () {
-				let json = JSON.parse(xhr.responseText);
-				let str = '';
-				let image = '';
-				let forecast = json.query.results.channel.item.forecast;
-				for (let i = 0; i <= 8; i++) {
-					switch (forecast[i].text) {
-						case 'Partly Cloudy':
-							image = '<img src="./img/partly_cloudy.svg">'
-							break;
-						case 'Thunderstorms':
-							image = '<img src="./img/storm.svg">'
-						case 'Scattered Thunderstorms':
-							image = '<img src="./img/storm.svg">'
-							break;
-						case 'Mostly Cloudy':
-							image = '<img src="./img/mostly_cloudy.svg">'
-							break;
-						case 'Scattered Showers':
-						case 'Showers':
-						case 'Rain':
-							image = '<img src="./img/showers.svg">'
-							break;
-						default:
-							image = '<img src="./img/no_image.svg">';
-					}
-					str += `<p>${forecast[i].date} ${forecast[i].day}<br>High: ${forecast[i].high}°F<br>Low: ${forecast[i].low}°F<br>${forecast[i].text}${image}</p>`;
-				};
-				info.innerHTML = str + '<div class="clearfix"></div>';
-			};
-			resolve('Success!');
+				resolve(xhr);
+			}
 		} else {
-			reject('Failed!');
-		}
-	});
+			reject('Failed...');
+		};
+	})
 };
 
 let formControl = document.querySelector('.form-control');
 formControl.addEventListener('keydown', (e) => {
 	if (e.key === 'Enter') {
+		let thumbnail = document.querySelector('.thumbnail');
+		thumbnail.style.display = 'block';
+		document.querySelector('h2').innerHTML = '查詢結果';
 		info.innerHTML = '';
 		let userValue = formControl.value;
 		callAPI(userValue).then((res) => {
-			console.log(res)
+			console.log(res, 123);
+			let json = JSON.parse(res.responseText);
+			let str = '';
+			let image = '';
+			let forecast = json.query.results.channel.item.forecast;
+			for (let i = 0; i <= 8; i++) {
+				switch (forecast[i].text) {
+					case 'Partly Cloudy':
+						image = '<img src="./img/partly_cloudy.svg">'
+						break;
+					case 'Thunderstorms':
+						image = '<img src="./img/storm.svg">'
+					case 'Scattered Thunderstorms':
+						image = '<img src="./img/storm.svg">'
+						break;
+					case 'Mostly Cloudy':
+						image = '<img src="./img/mostly_cloudy.svg">'
+						break;
+					case 'Scattered Showers':
+					case 'Showers':
+					case 'Rain':
+						image = '<img src="./img/showers.svg">'
+						break;
+					default:
+						image = '<img src="./img/no_image.svg">';
+				}
+				str += `<p>${forecast[i].date} ${forecast[i].day}<br>High: ${forecast[i].high}°F<br>Low: ${forecast[i].low}°F<br>${forecast[i].text}${image}</p>`;
+			};
+			info.innerHTML = str + '<div class="clearfix"></div>';
 		}).catch((err) => {
-			console.log(err)
+			console.log(err);
 			info.innerHTML = 'Sorry! Not found.';
 		});
 	};
-}, false);
-
-let submit = document.querySelector('.btn');
-submit.addEventListener('click', () => {
-	info.innerHTML = '';
-	let userValue = formControl.value;
-	callAPI(userValue).then(() => {
-		console.log('Success Click');
-	}).catch(() => {
-		console.log('Error Click');
-		info.innerHTML = 'Sorry! Not found.'
-	});
-}, false);
+});
